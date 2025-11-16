@@ -8,7 +8,7 @@ from typing import List, Optional, Dict, Any
 
 from fastapi import FastAPI, Depends, HTTPException, status, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordBearer
 from pydantic import BaseModel, EmailStr, Field
 from bson import ObjectId
 
@@ -108,6 +108,10 @@ class UserUpdate(BaseModel):
     name: Optional[str] = None
     password: Optional[str] = None
 
+class LoginRequest(BaseModel):
+    email: EmailStr
+    password: str
+
 class ProductCreate(BaseModel):
     title: str
     description: Optional[str] = None
@@ -197,9 +201,9 @@ def register(payload: UserCreate):
     return {"id": str(res.inserted_id), "name": doc["name"], "email": doc["email"], "is_admin": False}
 
 @app.post("/api/auth/login")
-def login(form_data: OAuth2PasswordRequestForm = Depends()):
-    user = db["user"].find_one({"email": form_data.username.lower()})
-    if not user or not verify_password(form_data.password, user.get("password_hash", "")):
+def login(payload: LoginRequest):
+    user = db["user"].find_one({"email": payload.email.lower()})
+    if not user or not verify_password(payload.password, user.get("password_hash", "")):
         raise HTTPException(status_code=400, detail="Incorrect email or password")
     access_token = create_access_token({"sub": str(user["_id"])})
     return {"access_token": access_token, "token_type": "bearer", "user": {"id": str(user["_id"]), "name": user["name"], "email": user["email"], "is_admin": user.get("is_admin", False)}}

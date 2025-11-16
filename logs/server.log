@@ -1,8 +1,11 @@
 INFO:     Will watch for changes in these directories: ['/home/workspace']
 INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
-INFO:     Started reloader process [389] using StatReload
-/usr/local/lib/python3.13/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'alias' attribute with value 'grant_type' was provided to the `Field()` function, which has no effect in the context it was used. 'alias' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
-  warnings.warn(
+INFO:     Started reloader process [500] using StatReload
+Form data requires "python-multipart" to be installed. 
+You can install "python-multipart" with: 
+
+pip install python-multipart
+
 Process SpawnProcess-1:
 Traceback (most recent call last):
   File "/usr/local/lib/python3.13/multiprocessing/process.py", line 313, in _bootstrap
@@ -43,9 +46,9 @@ Traceback (most recent call last):
   File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
   File "<frozen importlib._bootstrap_external>", line 1026, in exec_module
   File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
-  File "/home/workspace/main.py", line 199, in <module>
-    @app.post("/api/auth/login")
-     ~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/workspace/main.py", line 406, in <module>
+    @app.post("/api/images/upload")
+     ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
   File "/usr/local/lib/python3.13/site-packages/fastapi/routing.py", line 921, in decorator
     self.add_api_route(
     ~~~~~~~~~~~~~~~~~~^
@@ -62,31 +65,16 @@ Traceback (most recent call last):
     ...<24 lines>...
         generate_unique_id_function=current_generate_unique_id,
     )
-  File "/usr/local/lib/python3.13/site-packages/fastapi/routing.py", line 490, in __init__
-    self.dependant = get_dependant(path=self.path_format, call=self.endpoint)
-                     ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.13/site-packages/fastapi/dependencies/utils.py", line 269, in get_dependant
-    sub_dependant = get_param_sub_dependant(
-        param_name=param_name,
-    ...<2 lines>...
-        security_scopes=security_scopes,
-    )
-  File "/usr/local/lib/python3.13/site-packages/fastapi/dependencies/utils.py", line 112, in get_param_sub_dependant
-    return get_sub_dependant(
-        depends=depends,
-    ...<3 lines>...
-        security_scopes=security_scopes,
-    )
-  File "/usr/local/lib/python3.13/site-packages/fastapi/dependencies/utils.py", line 148, in get_sub_dependant
-    sub_dependant = get_dependant(
-        path=path,
-    ...<3 lines>...
-        use_cache=depends.use_cache,
-    )
-  File "/usr/local/lib/python3.13/site-packages/fastapi/dependencies/utils.py", line 290, in get_dependant
-    add_param_to_fields(field=param_field, dependant=dependant)
-    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.13/site-packages/fastapi/dependencies/utils.py", line 470, in add_param_to_fields
-    if field_info.in_ == params.ParamTypes.path:
-       ^^^^^^^^^^^^^^
-AttributeError: 'FieldInfo' object has no attribute 'in_'
+  File "/usr/local/lib/python3.13/site-packages/fastapi/routing.py", line 496, in __init__
+    self.body_field = get_body_field(dependant=self.dependant, name=self.unique_id)
+                      ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/site-packages/fastapi/dependencies/utils.py", line 809, in get_body_field
+    check_file_field(final_field)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/site-packages/fastapi/dependencies/utils.py", line 101, in check_file_field
+    raise RuntimeError(multipart_not_installed_error) from None
+RuntimeError: Form data requires "python-multipart" to be installed. 
+You can install "python-multipart" with: 
+
+pip install python-multipart
+
